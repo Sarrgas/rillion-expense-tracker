@@ -2,11 +2,11 @@ namespace Application.Database.Entities;
 
 public class Expense
 {
-    public Guid Id { get; set; }
-    public int Amount { get; set; }
-    public ExpenseCategory Category { get; set; }
-    public DateTime Date { get; set; }
-    public string Description { get; set; } = string.Empty;
+    public Guid Id { get; init; }
+    public int Amount { get; init; }
+    public ExpenseCategory Category { get; init; }
+    public DateTime Date { get; init; }
+    public string Description { get; init; } = string.Empty;
 }
 
 public enum ExpenseCategory

@@ -9,10 +9,12 @@ public static class AddExpense
     {
         public Task Handle(Request request, CancellationToken cancellationToken)
         {
-            dbContext.Expenses.Add(new Expense());
-            throw new NotImplementedException();
+            dbContext.Expenses.Add(request.ExpenseToAdd);
+            dbContext.SaveChanges();
+            
+            return Task.CompletedTask;
         }
     }
     
-    public record Request : IRequest;
+    public record Request(Expense ExpenseToAdd) : IRequest;
 }

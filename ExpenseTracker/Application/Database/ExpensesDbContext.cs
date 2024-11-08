@@ -14,7 +14,8 @@ public class ExpensesDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         var entityBuilder = modelBuilder.Entity<Expense>();
-        // entityBuilder.HasKey()
         entityBuilder.Property(x => x.Description).HasMaxLength(200);
     }
 }
+
+//dotnet ef migrations add InitialCreate --verbose --project Application --startup-project WebApi
