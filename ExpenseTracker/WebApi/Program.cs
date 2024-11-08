@@ -1,5 +1,6 @@
 using Application;
 using Application.Database.Entities;
+using Application.Features;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

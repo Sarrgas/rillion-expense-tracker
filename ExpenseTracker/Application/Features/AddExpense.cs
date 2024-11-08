@@ -1,7 +1,8 @@
 ﻿using Application.Database;
 using Application.Database.Entities;
 using MediatR;
-namespace Application;
+
+namespace Application.Features;
 
 public static class AddExpense
 {
