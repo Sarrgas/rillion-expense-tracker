@@ -28,7 +28,7 @@ public class AddExpenseTests
     [Test]
     public async Task GivenNoExpensesExist_WhenAddingOneExpense_ThenContextContainsOneExpense()
     {
-        await _sut.Handle(new AddExpense.Request(new AddedExpense(1220, ExpenseCategory.Food, "Storhandla")), CancellationToken.None);
+        await _sut.Handle(new AddExpense.Request(1, new AddedExpense(1220, ExpenseCategory.Food, "Storhandla")), CancellationToken.None);
         _context.Expenses.Should().HaveCount(1);
     }
     

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Application.Database.Entities;
 using Application.Features;
 using Application.Features.Expenses;
@@ -16,16 +17,20 @@ public static class ExpensesEndpoints
             .WithOpenApi()
             .RequireAuthorization();
 
-        expenses.MapPost("", async (ISender sender, [FromBody] AddedExpense addedExpense) =>
+        expenses.MapPost("", async (ISender sender, ClaimsPrincipal user, [FromBody] AddedExpense addedExpense) =>
             {
-                var response = await sender.Send(new AddExpense.Request(addedExpense));
+                var userIdClaim = user.Claims.FirstOrDefault(x => x.Type == "userid");
+                var userId = int.Parse(userIdClaim.Value);
+                var response = await sender.Send(new AddExpense.Request(userId, addedExpense));
                 return response.InsertedExpense;
             })
             .WithName("PostExpense");
         
-        expenses.MapGet("", async (ISender sender) =>
+        expenses.MapGet("", async (ISender sender, ClaimsPrincipal user) =>
             {
-                var response = await sender.Send(new GetAllExpenses.ForUser());
+                var userIdClaim = user.Claims.FirstOrDefault(x => x.Type == "userid");
+                var userId = int.Parse(userIdClaim.Value);
+                var response = await sender.Send(new GetAllExpenses.ForUserId(userId));
                 return response.AllExpensesForUser;
             })
             .WithName("GetAllExpensesForUser");

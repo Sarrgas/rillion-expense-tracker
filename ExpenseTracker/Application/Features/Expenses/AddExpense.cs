@@ -1,4 +1,5 @@
-﻿using Application.Database;
+﻿using System.Security.Claims;
+using Application.Database;
 using Application.Database.Entities;
 using MediatR;
 
@@ -17,6 +18,7 @@ public static class AddExpense
                 Category = request.AddedExpense.Category,
                 Date = DateTime.UtcNow,
                 Description = request.AddedExpense.Description,
+                UserId = request.UserId
             };
             dbContext.Expenses.Add(expenseToAdd);
             await dbContext.SaveChangesAsync(cancellationToken);
@@ -25,7 +27,7 @@ public static class AddExpense
         }
     }
     
-    public record Request(AddedExpense AddedExpense) : IRequest<Response>;
+    public record Request(int UserId, AddedExpense AddedExpense) : IRequest<Response>;
 
     public record Response(Expense InsertedExpense);
 }

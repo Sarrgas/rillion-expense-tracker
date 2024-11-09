@@ -7,8 +7,7 @@ public class Expense
     public ExpenseCategory Category { get; set; }
     public DateTime Date { get; init; }
     public string Description { get; init; } = string.Empty;
-    
-    //TODO En expense bör kopplas till en User också.
+    public int UserId { get; set; }
 }
 
 public enum ExpenseCategory

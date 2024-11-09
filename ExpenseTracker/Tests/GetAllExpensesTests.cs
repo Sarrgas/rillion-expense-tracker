@@ -31,7 +31,7 @@ public class GetAllExpensesTests
     {
         await PrepareDatabaseWithFiveExpenses();
         
-        var response = await _sut.Handle(new GetAllExpenses.ForUser(), CancellationToken.None);
+        var response = await _sut.Handle(new GetAllExpenses.ForUserId(1), CancellationToken.None);
         
         response.AllExpensesForUser.Should().HaveCount(5);
     }
@@ -46,7 +46,8 @@ public class GetAllExpensesTests
                 Amount = 149,
                 Category = ExpenseCategory.Entertainment,
                 Date = new DateTime(2020, 01, 01),
-                Description = "Netflix"
+                Description = "Netflix",
+                UserId = 1
             },
             new()
             {
@@ -54,7 +55,8 @@ public class GetAllExpensesTests
                 Amount = 700,
                 Category = ExpenseCategory.Food,
                 Date = new DateTime(2020, 01, 04),
-                Description = "Groceries"
+                Description = "Groceries",
+                UserId = 1
             },
             new()
             {
@@ -62,7 +64,8 @@ public class GetAllExpensesTests
                 Amount = 120,
                 Category = ExpenseCategory.Food,
                 Date = new DateTime(2020, 01, 07),
-                Description = "Pizza"
+                Description = "Pizza",
+                UserId = 1
             },
             new()
             {
@@ -70,7 +73,8 @@ public class GetAllExpensesTests
                 Amount = 650,
                 Category = ExpenseCategory.Utilities,
                 Date = new DateTime(2020, 02, 01),
-                Description = "Gasoline"
+                Description = "Gasoline",
+                UserId = 1
             },
             new()
             {
@@ -78,7 +82,8 @@ public class GetAllExpensesTests
                 Amount = 650,
                 Category = ExpenseCategory.Utilities,
                 Date = new DateTime(2020, 02, 05),
-                Description = "Internet"
+                Description = "Internet",
+                UserId = 1
             },
         };
         
