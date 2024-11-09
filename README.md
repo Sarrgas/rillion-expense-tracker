@@ -82,3 +82,4 @@ The "Category" enum is defined as:
 - ConnectionStrings stored in repo
 - Amount is an integer, should be decimal.
 - Inconsistent primary key value (Guid vs int)
+- No contraints on unique users
