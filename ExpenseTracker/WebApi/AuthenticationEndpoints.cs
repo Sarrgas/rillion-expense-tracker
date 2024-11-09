@@ -13,20 +13,26 @@ namespace WebApi;
 
 public static class AuthenticationEndpoints
 {
-    public static IApplicationBuilder MapAuthenticationEndpoints(this WebApplication app)
+    public static WebApplication MapAuthenticationEndpoints(this WebApplication app)
     {
         var authentication = app
             .MapGroup("/authentication")
             .WithName("Authentication")
             .WithOpenApi();
 
-        authentication.MapPost("login", async (ISender sender, IConfiguration config, [FromBody] LoginRequest loginRequest) =>
+        authentication.MapPost("login", async (ISender sender, [FromBody] LoginRequest loginRequest) =>
             {
                 var response = await sender.Send(new Login.ByUsernameAndPassword(loginRequest.Username, loginRequest.Password));
                 
                 return response.Token;
             })
             .WithName("Login");
+        
+        authentication.MapPost("create-user", async (ISender sender, [FromBody] LoginRequest loginRequest) =>
+            {
+                await sender.Send(new CreateUser.Request(loginRequest.Username, loginRequest.Password));
+            })
+            .WithName("CreateUser");
 
         return app;
     }

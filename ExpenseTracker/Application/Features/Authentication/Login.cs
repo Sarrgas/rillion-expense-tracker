@@ -16,12 +16,18 @@ public static class Login
     {
         public async Task<Response> Handle(ByUsernameAndPassword request, CancellationToken cancellationToken)
         {
+            var user = dbContext.Users.SingleOrDefault(u => u.Username == request.Username && u.Password == request.Password);
+            if (user == null)
+            {
+                throw new UnauthorizedAccessException("Invalid username or password");
+            }
+            
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var securityToken = new JwtSecurityToken(configuration["Jwt:Issuer"],
                 configuration["Jwt:Issuer"],
-                [new Claim("userid", "1")],
+                [new Claim("userid", user.Id.ToString()),],
                 expires: DateTime.Now.AddMinutes(120),
                 signingCredentials: credentials);
 
