@@ -32,7 +32,7 @@ public class GetAllExpensesTests
         
         var response = await _sut.Handle(new GetAllExpenses.ForUser(), CancellationToken.None);
         
-        response.Expenses.Should().HaveCount(5);
+        response.AllExpensesForUser.Should().HaveCount(5);
     }
 
     private async Task PrepareDatabaseWithFiveExpenses()

@@ -18,5 +18,5 @@ public static class GetAllExpenses
     }
 
     public record ForUser : IRequest<Response>; //TODO Filter by user
-    public record Response(IEnumerable<Expense> Expenses);
+    public record Response(IEnumerable<Expense> AllExpensesForUser);
 }

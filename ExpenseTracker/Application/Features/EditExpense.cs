@@ -7,20 +7,23 @@ namespace Application.Features;
 
 public static class EditExpense
 {
-    public class Handler(ExpensesDbContext dbContext) : IRequestHandler<Request>
+    public class Handler(ExpensesDbContext dbContext) : IRequestHandler<Request, Response>
     {
-        public async Task Handle(Request request, CancellationToken cancellationToken)
+        public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
         {
             //TODO Authorize user? Is this YOUR expense to edit?
             var expenseToEdit = await dbContext.Expenses.FirstAsync(x => x.Id == request.ExpenseId, cancellationToken: cancellationToken);
             expenseToEdit.Amount = request.EditedExpense.Amount;
             expenseToEdit.Category = request.EditedExpense.Category;
-            // dbContext.Expenses.Update(expenseToEdit);
             await dbContext.SaveChangesAsync(cancellationToken);
+            
+            return new Response(expenseToEdit);
         }
     }
 
-    public record Request(Guid ExpenseId, EditableExpense EditedExpense) : IRequest;
+    public record Request(Guid ExpenseId, EditableExpense EditedExpense) : IRequest<Response>;
+
+    public record Response(Expense EditedExpense);
 }
 
 public record EditableExpense(int Amount, ExpenseCategory Category);
