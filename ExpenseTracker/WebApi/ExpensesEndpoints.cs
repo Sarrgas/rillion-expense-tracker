@@ -9,7 +9,7 @@ namespace WebApi;
 
 public static class ExpensesEndpoints
 {
-    public static WebApplication MapExpensesEndpoints(this WebApplication app)
+    public static WebApplication MapExpenseEndpoints(this WebApplication app)
     {
         var expenses = app
             .MapGroup("/expenses")
@@ -20,7 +20,7 @@ public static class ExpensesEndpoints
         expenses.MapPost("", async (ISender sender, ClaimsPrincipal user, [FromBody] AddedExpense addedExpense) =>
             {
                 var userIdClaim = user.Claims.FirstOrDefault(x => x.Type == "userid");
-                var userId = int.Parse(userIdClaim.Value);
+                var userId = int.Parse(userIdClaim!.Value);
                 var response = await sender.Send(new AddExpense.Request(userId, addedExpense));
                 return response.InsertedExpense;
             })
@@ -29,7 +29,7 @@ public static class ExpensesEndpoints
         expenses.MapGet("", async (ISender sender, ClaimsPrincipal user) =>
             {
                 var userIdClaim = user.Claims.FirstOrDefault(x => x.Type == "userid");
-                var userId = int.Parse(userIdClaim.Value);
+                var userId = int.Parse(userIdClaim!.Value);
                 var response = await sender.Send(new GetAllExpenses.ForUserId(userId));
                 return response.AllExpensesForUser;
             })

@@ -43,7 +43,7 @@ public class EditExpenseTests
         await _sut.Handle(new EditExpense.Request(existingExpense.Id, new EditableExpense(existingExpense.Amount, ExpenseCategory.Entertainment)), CancellationToken.None);
         
         var updatedExpense = await _context.Expenses.FindAsync(existingExpense.Id);
-        updatedExpense.Category.Should().Be(ExpenseCategory.Entertainment);
+        updatedExpense!.Category.Should().Be(ExpenseCategory.Entertainment);
     }
     
     [Test]
@@ -63,6 +63,6 @@ public class EditExpenseTests
         await _sut.Handle(new EditExpense.Request(existingExpense.Id, new EditableExpense(99, existingExpense.Category)), CancellationToken.None);
         
         var updatedExpense = await _context.Expenses.FindAsync(existingExpense.Id);
-        updatedExpense.Amount.Should().Be(99);
+        updatedExpense!.Amount.Should().Be(99);
     }
 }

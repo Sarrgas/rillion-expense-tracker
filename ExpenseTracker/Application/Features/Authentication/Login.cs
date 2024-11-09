@@ -14,7 +14,7 @@ public static class Login
 {
     public class Handler(ExpensesDbContext dbContext, IConfiguration configuration) : IRequestHandler<ByUsernameAndPassword, Response>
     {
-        public async Task<Response> Handle(ByUsernameAndPassword request, CancellationToken cancellationToken)
+        public Task<Response> Handle(ByUsernameAndPassword request, CancellationToken cancellationToken)
         {
             var user = dbContext.Users.SingleOrDefault(u => u.Username == request.Username && u.Password == request.Password);
             if (user == null)
@@ -22,7 +22,7 @@ public static class Login
                 throw new UnauthorizedAccessException("Invalid username or password");
             }
             
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var securityToken = new JwtSecurityToken(configuration["Jwt:Issuer"],
@@ -33,7 +33,7 @@ public static class Login
 
             var token =  new JwtSecurityTokenHandler().WriteToken(securityToken);
 
-            return new Response(token!);
+            return Task.FromResult(new Response(token!));
         }
     }
 
