@@ -13,9 +13,9 @@ docker run --cap-add SYS_PTRACE -e 'ACCEPT_EULA=1' -e 'MSSQL_SA_PASSWORD=MyStron
 ```
 
 
-Then change the appsettings.json file to use your local sql server container. There is a commented-out DefaultConnection under ConnectionStrings prepared for you that you can use.
+Then change the `appsettings.json` file to use your local sql server container. There is a commented-out DefaultConnection under ConnectionStrings prepared for you that you can use.
 
-Then, run the Entity Framework migrations to create the database. Navigate to the root of the folder ExpenseTracker and run
+Then, run the Entity Framework migrations to create the database. Navigate to the root of the folder `ExpenseTracker` and run
 
 ```
 dotnet ef database update --verbose --project Application --startup-project WebApi
@@ -28,6 +28,12 @@ Now you should be ready to go! :)
 The application comes with simple Authentication. To use the Expense endpoints you must be logged in. To log in, you must first create a user. So let's start there!
 
 **Step 1: Create a user:** To create a user, run the `POST /authentication/create-user` endpoint and enter your desired username and password into the request body.
+```json
+{
+  "username": "kalleanka",
+  "password": "julafton2024"
+}
+```
 
 **Step 2: Log in:** Now that you have a user, run the `POST /authentication/login` endpoint, using the same username and password as before. This will return a JWT token. Copy the token.
 
@@ -49,13 +55,15 @@ Now that you are authenticated, let's use the Expense endpoints to create and ma
 
 **Step 2: View all your Expenses:** Run the `GET /expenses` endpoint. This will return all *your* expenses as the logged-in user.
 
-**Step 3: Edit an Expense:** Copy the `id` field of the expense you want to edit (for example 6b4f42d5-eedb-4a29-b249-942b94be579c), then run `PATCH /expenses/6b4f42d5-eedb-4a29-b249-942b94be579c` with the body of the editable fields. Please note that only Amount and Category can be edited.
+**Step 3: Edit an Expense:** Copy the `id` field of the expense you want to edit (for example `6b4f42d5-eedb-4a29-b249-942b94be579c`), then run `PATCH /expenses/6b4f42d5-eedb-4a29-b249-942b94be579c` with the body of the editable fields. Please note that only Amount and Category can be edited.
 ```json
 {
   "amount": 600,
   "category": 2
 }
 ```
+
+That will update your expense with these new values. Feel free to run `GET /expenses` again to see the update.
 
 The "Category" enum is defined as:
 ```
@@ -73,3 +81,4 @@ The "Category" enum is defined as:
 - No foreign key between Expenses.UserId and Users
 - ConnectionStrings stored in repo
 - Amount is an integer, should be decimal.
+- Inconsistent primary key value (Guid vs int)
