@@ -10,3 +10,10 @@ docker run --cap-add SYS_PTRACE -e 'ACCEPT_EULA=1' -e 'MSSQL_SA_PASSWORD=MyStron
 Header:
 Key: Authorization
 Value: bearer blabla
+
+
+## Known Issues
+- Logged in user can edit other users expenses
+- Passwords are stored in plain text
+- No built-in Swagger authentication (use Postman or similar to pass headers)
+- No foreign key between Expenses.UserId and Users
