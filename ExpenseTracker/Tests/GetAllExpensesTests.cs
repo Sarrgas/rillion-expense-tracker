@@ -1,6 +1,7 @@
 using Application.Database;
 using Application.Database.Entities;
 using Application.Features;
+using Application.Features.Expenses;
 using FluentAssertions;
 using Tests.Common;
 

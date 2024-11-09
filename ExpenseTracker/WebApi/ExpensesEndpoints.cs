@@ -1,5 +1,6 @@
 using Application.Database.Entities;
 using Application.Features;
+using Application.Features.Expenses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,12 +8,13 @@ namespace WebApi;
 
 public static class ExpensesEndpoints
 {
-    public static IApplicationBuilder MapExpensesEndpoints(this WebApplication app)
+    public static WebApplication MapExpensesEndpoints(this WebApplication app)
     {
         var expenses = app
             .MapGroup("/expenses")
             .WithName("Expenses")
-            .WithOpenApi();
+            .WithOpenApi()
+            .RequireAuthorization();
 
         expenses.MapPost("", async (ISender sender, [FromBody] AddedExpense addedExpense) =>
             {

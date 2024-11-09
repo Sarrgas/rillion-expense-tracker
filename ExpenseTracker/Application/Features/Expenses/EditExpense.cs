@@ -3,7 +3,7 @@ using Application.Database.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Features;
+namespace Application.Features.Expenses;
 
 public static class EditExpense
 {
