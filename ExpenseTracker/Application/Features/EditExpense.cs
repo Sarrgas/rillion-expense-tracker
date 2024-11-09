@@ -23,8 +23,4 @@ public static class EditExpense
     public record Request(Guid ExpenseId, EditableExpense EditedExpense) : IRequest;
 }
 
-public class EditableExpense
-{
-    public int Amount { get; set; }
-    public ExpenseCategory Category { get; set; }
-}
+public record EditableExpense(int Amount, ExpenseCategory Category);
