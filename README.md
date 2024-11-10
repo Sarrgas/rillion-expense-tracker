@@ -2,7 +2,7 @@
 Welcome to my Expense Tracker for the Rillion home assignment code test.
 
 ## Running the application
-The simplest way to run the application is to simply clone the repo, open the solution and run the WebApi application.
+The simplest way to run the application is to simply clone the repo, open the solution in your IDE and run the WebApi application.
 For simplicity, I have set up a temporary Azure SQL Server Database in the cloud that the application will use by default. This database will be removed on December 1st 2024 or when it has served its purpose.
 
 ## Setting up local database
@@ -13,7 +13,7 @@ docker run --cap-add SYS_PTRACE -e 'ACCEPT_EULA=1' -e 'MSSQL_SA_PASSWORD=MyStron
 ```
 
 
-Then change the `appsettings.json` file to use your local sql server container. There is a commented-out DefaultConnection under ConnectionStrings prepared for you that you can use.
+Then change the `appsettings.json` in file in the WebApi project to use your local sql server container. There is a commented-out DefaultConnection under ConnectionStrings prepared for you that you can use.
 
 Then, run the Entity Framework migrations to create the database. Navigate to the root of the folder `ExpenseTracker` and run
 
@@ -80,6 +80,8 @@ The "Category" enum is defined as:
 - No built-in Swagger authentication (use Postman or similar to pass headers)
 - No foreign key between Expenses.UserId and Users
 - ConnectionStrings stored in repo
-- Amount is an integer, should be decimal.
+- Expense.Amount is an integer, should be decimal.
 - Inconsistent primary key value (Guid vs int)
 - No contraints on unique users
+- Poorly named DbContext
+- No tests for edge-cases.
